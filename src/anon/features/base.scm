@@ -5,7 +5,6 @@
   #:use-module (gnu services base)
   #:use-module (gnu packages bash)
   #:use-module (gnu packages admin)
-  #:use-module (anon packages rust-apps)
   #:use-module (guix gexp)
   #:export (feature-base-services))
 
@@ -15,7 +14,7 @@
           guix-substitute-urls
           guix-authorized-keys
           (tuigreet? #f))
-  "Use @code{tuigreet} instead of @code{agreety} as terminal ui greeter for greetd."
+  "Same with rde:feature-base-services."
   (define base (rde:feature-base-services
                 #:default-substitute-urls default-substitute-urls
                 #:guix-substitute-urls guix-substitute-urls
@@ -33,13 +32,13 @@
                                 (default-session-command
                                   (program-file
                                    "run-greeter"
-                                   #~(execl #$(file-append ddlm "/bin/ddlm")
-                                            #$(file-append ddlm "/bin/ddlm")
-                                            "--target"
+                                   #~(execl #$(file-append greetd "/bin/agreety")
+                                            #$(file-append greetd "/bin/agreety")
+                                            "--cmd"
                                             #$(file-append bash "/bin/bash"))))))
                              (iota 6 1)))
                        (greeter-supplementary-groups
-                        '("video"))))))
+                        '("video" "input"))))))
 
   (feature
    (name (feature-name base))

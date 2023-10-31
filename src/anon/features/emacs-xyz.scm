@@ -3,13 +3,15 @@
   #:use-module (rde features emacs)
   #:use-module (rde features emacs-xyz)
   #:use-module (gnu packages emacs-xyz)
-  #:export (feature-emacs-doom-themes
+  #:use-module (guix gexp)
+  #:export (feature-emacs-wttr
+            feature-emacs-doom-themes
             feature-emacs-doom-modeline))
 
 (define* (feature-emacs-doom-themes
           #:key
-          (light-theme 'plain)
-          (dark-theme 'plain-dark))
+          (light-theme 'one-light)
+          (dark-theme 'one))
   (ensure-pred symbol? light-theme)
   (ensure-pred symbol? dark-theme)
 
@@ -37,7 +39,7 @@
        (> n 0)))
 
 (define* (feature-emacs-doom-modeline
-          #:key                         ;
+          #:key
           (modeline-height 25))
   (ensure-pred >0? modeline-height)
 

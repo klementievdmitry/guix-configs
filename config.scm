@@ -18,11 +18,13 @@
  (rde features terminals)
  (rde features bluetooth)
  (rde features xdg)
- (rde features wm)
+ ;; (rde features wm)
  (rde features keyboard)
  (rde features networking)
  (rde features web-browsers)
  (rde features nyxt-xyz)
+ (rde features fontutils)
+ (contrib features wm)
  (anon features host)
  (anon features emacs-xyz)
  (anon features flatpak)
@@ -60,7 +62,14 @@
     (feature-user-info
      #:user-name "anon"
      #:full-name "Anonymous"
-     #:email "klementievdmitry@gmail.com")
+     #:email "klementievdmitry@gmail.com"
+     #:user-groups
+     '("wheel"
+       "netdev"
+       "audio"
+       "video"
+       "dialout"
+       "tty"))
     (feature-base-packages
      #:home-packages
      (list icecat))
@@ -83,13 +92,32 @@
     (feature-keyboard
      #:keyboard-layout
      my-keyboard-layout)
+
+    (feature-fonts)
+
     (feature-emacs)
     (feature-emacs-appearance
      #:margin 0
      #:header-line-as-mode-line? #f)
     (feature-emacs-eshell)
     (feature-vterm)
+    (feature-emacs-all-the-icons)
+    (feature-emacs-completion)
     (feature-emacs-vertico)
+    (feature-emacs-corfu)
+    (feature-emacs-eglot)
+    (feature-emacs-flymake)
+    (feature-emacs-elisp)
+    (feature-emacs-git)
+    (feature-emacs-geiser)
+    (feature-emacs-guix)
+    (feature-emacs-pdf-tools)
+    (feature-emacs-org)
+    (feature-emacs-telega
+     #:notify? #t)
+    (feature-emacs-battery)
+    (feature-emacs-ednc
+     #:notifications-icon #f)
     (feature-emacs-which-key)
     (feature-emacs-smartparens)
     (feature-emacs-doom-themes)
@@ -105,13 +133,8 @@
     (feature-nyxt)
     (feature-nyxt-emacs-mode)
 
-    (feature-sway
-     #:extra-config
-     '((input * ((tap enabled)
-                 (natural_scroll enabled)))))
-    (feature-sway-run-on-tty)
-    (feature-waybar
-     #:waybar waybar))))
+    (feature-emacs-exwm)
+    (feature-emacs-exwm-run-on-tty))))
 
 (let ((%config (rde-config
                 (features %my-features))))

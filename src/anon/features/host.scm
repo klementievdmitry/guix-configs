@@ -134,6 +134,6 @@
     #:firmware (host-firmware %current-host))
    (feature-host-info
     #:host-name "gentoo"
-    #:timezone "Etc/UTC" ; or "Asia/Yekaterinburg"
+    #:timezone "Asia/Yekaterinburg" ; or "Etc/UTC"
     #:locale "en_US.utf8"
     #:issue (@@ (gnu system) %default-issue))))
