@@ -1,6 +1,9 @@
 (use-modules
  (gnu)
- (gnu home services shells)
+ (gnu home services)
+ (gnu packages chromium)
+ (gnu packages suckless)
+ (gnu packages emacs)
  (rde features)
  ((rde features base)
   #:select (feature-user-info
@@ -18,7 +21,6 @@
  (rde features terminals)
  (rde features bluetooth)
  (rde features xdg)
- ;; (rde features wm)
  (rde features keyboard)
  (rde features networking)
  (rde features web-browsers)
@@ -54,6 +56,26 @@
   '("https://bordeaux.guix.gnu.org"
     "https://substitutes.nonguix.org"))
 
+(define %xorg-libinput-configuration
+  "Section \"InputClass\"
+  Identifier \"Touchpads\"
+  Driver \"libinput\"
+  MatchDevicePath \"/dev/input/event*\"
+  MatchIsTouchpad \"on\"
+  Option \"Tapping\" \"on\"
+  Option \"TappingDrag\" \"on\"
+  Option \"DisableWhileTyping\" \"on\"
+  Option \"MiddleEmulation\" \"on\"
+  Option \"ScrollMethdod\" \"twofinger\"
+  Option \"NaturalScrolling\" \"true\"
+EndSection
+Section \"InputClass\"
+  Identifier \"Keyboards\"
+  Driver \"libinput\"
+  MatchDevicePath \"/dev/input/event*\"
+  MatchIsKeyboard \"on\"
+EndSection")
+
 (define %my-features
   (append
    ;; Host-specific features
@@ -72,7 +94,9 @@
        "tty"))
     (feature-base-packages
      #:home-packages
-     (list icecat))
+     ;; TODO: Use `surf' as a main web browser in EXWM.
+     ;; TODO: Maybe setup `luakit' or `nyxt' as main web browser in all sessions
+     (list surf ungoogled-chromium))
     (feature-base-services
      #:default-substitute-urls
      '("https://bordeaux.guix.gnu.org")
@@ -82,9 +106,6 @@
      (list (local-file "./signing-key.pub")))
     (feature-desktop-services)
     (feature-networking)
-    (feature-custom-services
-     #:home-services
-     '())
     (feature-flatpak
      #:packages (list flatpak-discord))
     (feature-xdg)
@@ -95,7 +116,8 @@
 
     (feature-fonts)
 
-    (feature-emacs)
+    (feature-emacs
+     #:emacs emacs)
     (feature-emacs-appearance
      #:margin 0
      #:header-line-as-mode-line? #f)
@@ -134,7 +156,10 @@
     (feature-nyxt-emacs-mode)
 
     (feature-emacs-exwm)
-    (feature-emacs-exwm-run-on-tty))))
+    (feature-emacs-exwm-run-on-tty
+     #:xorg-libinput-configuration %xorg-libinput-configuration
+     #:emacs-exwm-tty-number 1)
+    )))
 
 (let ((%config (rde-config
                 (features %my-features))))

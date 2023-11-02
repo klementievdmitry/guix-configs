@@ -125,7 +125,7 @@
                       (dependencies (list swap-fs))))
     #:file-systems btrfs-file-systems)
    (feature-kernel
-    #:kernel linux-xanmod
+    #:kernel linux-5.15 ; linux-5.15 is available in nonguix's substitutes.
     #:initrd microcode-initrd
     #:initrd-modules
     (append (list "vmd") (@ (gnu system linux-initrd) %base-initrd-modules))

@@ -1,6 +1,9 @@
 GUILE_ENV_VARS=GUILE_LOAD_PATH=$(HOME)/.config/guix/current/share/guile/site/3.0/:./src:$(GUILE_LOAD_PATH)
 GUIX=$(GUILE_ENV_VARS) guix
 
+# Reconfigure System and Home (all)
+system-and-home: system home
+
 # Update profile
 profile:
 	@guix pull --channels=channels.scm
@@ -21,10 +24,6 @@ home: maybe-profile
 system: maybe-profile
 	@RDE_TARGET=system \
 	sudo $(GUIX) system reconfigure config.scm
-
-system/shepherd-graph:
-	@RDE_TARGET=system \
-	sudo $(GUIX) system shepherd-graph config.scm
 
 # Start REPL with this configuration
 repl: maybe-profile
